@@ -238,10 +238,13 @@ if __name__ == "__main__":
         bluez.hci_filter_set_ptype(flt, bluez.HCI_EVENT_PKT)
         sock.setsockopt(bluez.SOL_HCI, bluez.HCI_FILTER, flt)
 
+        timeout = time.time() + 5
         while True:
             # parse ble event
             parse_events(sock, detection_mode)
             flag_update_sensor_status = False
+            if (time.time() > timeout) :
+                break
 
     except Exception as e:
         print("Exception: " + str(e))
